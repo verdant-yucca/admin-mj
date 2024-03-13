@@ -1,0 +1,31 @@
+@font-face {
+    font-family: 'Noto Sans';
+    src: url('../../assets/fonts/notosanstc-bold.woff2') format("woff2");
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Noto Sans';
+    src: url('../../assets/fonts/notosanstc-medium.woff2') format("woff2");
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Noto Sans';
+    src: url('../../assets/fonts/notosanstc-regular.woff2') format("woff2");
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'GomariceRocks';
+    src: url('../../assets/fonts/gomarice_rocks.ttf') format("truetype");
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+}
