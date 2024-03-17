@@ -1,5 +1,5 @@
-import * as someName from './someFile';
+import * as auth from './someFile';
 
 export const API = {
-    someName
+    auth
 };

@@ -1,4 +1,4 @@
 export const APP_ROUTE = {
-    root: '/',
+    root: '/main',
     login: '/login'
 };
