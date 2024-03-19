@@ -1,5 +1,7 @@
-import * as auth from './someFile';
+import * as auth from './auth';
+import * as jsonEditor from './jsonEditor';
 
 export const API = {
-    auth
+    auth,
+    jsonEditor
 };

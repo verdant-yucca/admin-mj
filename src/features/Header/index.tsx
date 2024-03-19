@@ -1,1 +1,45 @@
-export const Header = () => <></>;
+import React, { useState } from 'react';
+import type { MenuProps } from 'antd';
+import { Menu } from 'antd';
+import { APP_ROUTE } from '../../shared/constants/routes';
+import { historyEvents } from '../../shared/model/history';
+
+export const Header = () => {
+    const [current, setCurrent] = useState('mail');
+
+    const onClick: MenuProps['onClick'] = e => {
+        setCurrent(e.key);
+        historyEvents.push(e.key);
+    };
+
+    const items = [
+        {
+            label: 'Main',
+            key: APP_ROUTE.root
+        },
+        {
+            label: 'Users',
+            key: APP_ROUTE.users
+        },
+        {
+            label: 'Queries',
+            key: APP_ROUTE.queries
+        },
+        {
+            label: 'jsonEditor',
+            key: APP_ROUTE.jsonEditor
+        }
+    ];
+
+    return (
+        <>
+            <Menu
+                style={{ backgroundColor: '#bac4d8' }}
+                onClick={onClick}
+                selectedKeys={[current]}
+                mode="horizontal"
+                items={items}
+            />
+        </>
+    );
+};
