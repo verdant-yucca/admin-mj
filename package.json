@@ -83,6 +83,5 @@
   "resolutions": {
     "es5-ext": "0.10.53",
     "styled-components": "^5"
-  },
-  "packageManager": "yarn@3.2.2"
+  }
 }
