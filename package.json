@@ -6,7 +6,7 @@
   "scripts": {
     "start": "yarn run -T vite",
     "vite:build": "tsc & vite build",
-    "build": "yarn run -T env-cmd -e local -r .env.json vite build",
+    "build": "vite build",
     "test": "yarn run -T vitest",
     "lint": "yarn run -T eslint src/**/*.{ts,tsx}",
     "compile": "yarn run -T tsc --noEmit",

@@ -17,12 +17,12 @@ packages/api2-test
 debug.log
 
 # production
-/build
-/build-*
-/**/build
-/**/build-*
-/**/dist
-/**/dist-*
+# /build
+# /build-*
+# /**/build
+# /**/build-*
+# /**/dist
+# /**/dist-*
 
 # misc
 .DS_Store
