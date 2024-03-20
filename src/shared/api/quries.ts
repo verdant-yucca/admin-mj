@@ -1,8 +1,8 @@
 import axios from './axios-instance';
 
-export const getQueries = () =>
+export const getQueries = (data: { dateStart: string; dateEnd: string }) =>
     axios<NonNullable<unknown>>({
         url: '/getQueries',
         method: 'POST',
-        data: { dateStart: '03.18.2024', dateEnd: '03.20.2024' }
+        data
     });

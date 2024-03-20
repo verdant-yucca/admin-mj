@@ -5,3 +5,8 @@ sample({
     clock: jsonEditorEvents.getContentFn,
     target: jsonEditorEffects.getContentFx
 });
+
+sample({
+    clock: jsonEditorEvents.updateContentFn,
+    target: jsonEditorEffects.updateContentFx
+});
