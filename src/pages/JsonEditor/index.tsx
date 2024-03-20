@@ -1,47 +1,55 @@
-import JSONInput from 'react-json-editor-ajrm';
-import locale from 'react-json-editor-ajrm/locale/en';
-import { useEffect, useState } from 'react';
+import { createContext, useEffect, useState } from 'react';
 import { jsonEditorEvents, jsonEditorStores } from '../../shared/model/jsonEditor';
 import { useStore } from 'effector-react';
-import { Button } from 'antd';
+import { Button, notification } from 'antd';
+import SvelteJsonEditor from './SvelteJsonEditor';
+
+const Context = createContext({ name: 'Default' });
 
 export const JsonEditorPage = () => {
     const content = useStore(jsonEditorStores.content);
-    const [currentJson, setCurrentJson] = useState(content);
-    const [buttonText, setButtonText] = useState('SAVE');
-    const [countClick, setCountClick] = useState(0);
-    console.log(currentJson);
+    const isContentUpdated = useStore(jsonEditorStores.isContentUpdated);
+    const [currentJson, setCurrentJson] = useState({
+        json: content
+    });
+
+    const [api, contextHolder] = notification.useNotification();
+
+    const openNotification = (placement: NotificationPlacement) => {
+        api.info({
+            message: `Успешно!`,
+            description: <Context.Consumer>{() => `Ты пидор!`}</Context.Consumer>,
+            placement
+        });
+    };
+
     const handleClick = () => {
-        if (countClick > 1) {
-            // jsonEditorEvents.updateContentFn(currentJson);
-            setButtonText('SAVE');
-        }
-        if (countClick === 1) {
-            setButtonText('Ты хорошо подумал? Если да, нажимай ещё раз!');
-        }
+        jsonEditorEvents.updateContentFn(currentJson.json);
     };
 
     useEffect(() => {
+        if (isContentUpdated) {
+            openNotification('topRight');
+            jsonEditorEvents.resetIsContentUpdatedFn();
+        }
+    }, [isContentUpdated]);
+
+    useEffect(() => {
         jsonEditorEvents.getContentFn();
+        return () => jsonEditorEvents.resetContentFn();
     }, []);
 
+    useEffect(() => {
+        setCurrentJson({ json: content });
+    }, [content]);
+
     return (
-        <>
-            <JSONInput
-                id="a_unique_id"
-                height={'calc(100vh - 100px)'}
-                width={'100%'}
-                placeholder={content}
-                onBlur={obj => {
-                    console.log(obj);
-                    // setCurrentJson(JSON.parse(obj.json));
-                    setCountClick(1);
-                }}
-                locale={locale}
-            />
+        <Context.Provider>
+            {contextHolder}
+            <SvelteJsonEditor content={currentJson} onChange={setCurrentJson} />
             <Button style={{ width: '100%', height: '54px' }} type={'primary'} onClick={handleClick}>
-                {buttonText}
+                SAVE
             </Button>
-        </>
+        </Context.Provider>
     );
 };

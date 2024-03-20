@@ -20,10 +20,18 @@ const updateContentFx = createEffect(async (payload: NonNullable<unknown>) => {
         throw new Error();
     }
 });
-const content = createStore({}).on(getContentFx.doneData, (_, content) => content);
+const resetContentFn = createEvent();
+const content = createStore({})
+    .on(getContentFx.doneData, (_, content) => content)
+    .reset(resetContentFn);
+const resetIsContentUpdatedFn = createEvent();
+const isContentUpdated = createStore(false)
+    .on(updateContentFx.doneData, () => true)
+    .reset(resetIsContentUpdatedFn);
 
 export const jsonEditorStores = {
-    content
+    content,
+    isContentUpdated
 };
 
 export const jsonEditorEffects = {
@@ -33,5 +41,7 @@ export const jsonEditorEffects = {
 
 export const jsonEditorEvents = {
     getContentFn,
-    updateContentFn
+    updateContentFn,
+    resetContentFn,
+    resetIsContentUpdatedFn
 };

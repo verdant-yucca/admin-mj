@@ -20,11 +20,11 @@ const App = () => {
     const isAuth = useStore(authStores.isAuth);
 
     useEffect(() => {
-        //commented this code for dev without authorization
-        // const token = localStorage.getItem('token');
-        // if (token) {
-        authEvents.setIsAuthFn();
-        // }
+        // commented this code for dev without authorization
+        const token = localStorage.getItem('token');
+        if (token) {
+            authEvents.setIsAuthFn();
+        }
     }, []);
 
     return (
