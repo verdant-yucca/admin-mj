@@ -7,7 +7,7 @@ import { Title } from './styles';
 import { format } from 'date-fns';
 
 export const QueriesPage = () => {
-    const queries = useStore(queriesStores.queries);
+    const queries = useStore(queriesStores.queriesForTime);
     const queriesCountByMinute = useStore(queriesStores.queriesCountByMinute);
     const queriesCountByHours = useStore(queriesStores.queriesCountByHours);
     const queriesCountByDays = useStore(queriesStores.queriesCountByDays);
@@ -68,7 +68,12 @@ export const QueriesPage = () => {
         const tomorrow = new Date(currentDate).setDate(currentDate.getDate() + 1);
         const yesterday = new Date(currentDate).setDate(currentDate.getDate() - 1);
 
-        queriesEvents.getQueriesFn({
+        queriesEvents.getQueriesForTimeFn({
+            dateStart: format(yesterday, 'MM.dd.yyyy'),
+            dateEnd: format(tomorrow, 'MM.dd.yyyy')
+        });
+
+        queriesEvents.getQueriesForCountFn({
             dateStart: format(yesterday, 'MM.dd.yyyy'),
             dateEnd: format(tomorrow, 'MM.dd.yyyy')
         });

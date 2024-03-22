@@ -1,9 +1,9 @@
 import { createEffect, createEvent, createStore } from 'effector';
 import { API } from '../../api';
 
-const getQueriesFn = createEvent<{ dateStart: string; dateEnd: string }>();
+const getQueriesForTimeFn = createEvent<{ dateStart: string; dateEnd: string }>();
 
-const getQueriesFx = createEffect(async (payload: { dateStart: string; dateEnd: string }) => {
+const getQueriesForTimeFx = createEffect(async (payload: { dateStart: string; dateEnd: string }) => {
     const data = await API.quries.getQueries(payload);
     if (data) {
         return data?.queries || [];
@@ -11,7 +11,18 @@ const getQueriesFx = createEffect(async (payload: { dateStart: string; dateEnd: 
         throw new Error();
     }
 });
-const queries = createStore([]).on(getQueriesFx.doneData, (_, queries) => {
+
+const getQueriesForCountFn = createEvent<{ dateStart: string; dateEnd: string }>();
+const getQueriesForCountFx = createEffect(async (payload: { dateStart: string; dateEnd: string }) => {
+    const data = await API.quries.getQueries(payload);
+    if (data) {
+        return data?.queries || [];
+    } else {
+        throw new Error();
+    }
+});
+
+const queriesForTime = createStore([]).on(getQueriesForTimeFx.doneData, (_, queries) => {
     const regexV = /V[1-4]/;
     const regexU = /U[1-4]/;
     const regexReroll = /🔄/;
@@ -21,13 +32,13 @@ const queries = createStore([]).on(getQueriesFx.doneData, (_, queries) => {
         leadTime: query.leadTime ? +(query.leadTime / 1000 / 60).toFixed(2) : 0,
         action: query.action
             ? regexV.test(query.action)
-                ? 'Variations'
+                ? 'Варианты'
                 : regexU.test(query.action)
-                  ? 'Upscale'
+                  ? 'Результат'
                   : regexReroll.test(query.action)
                     ? 'Reroll'
                     : query.action
-            : 'unknown'
+            : 'Незавершено'
     }));
 });
 
@@ -35,13 +46,33 @@ const roundToMinute = (dateString: string) => {
     const date = new Date(dateString);
     date.setMilliseconds(0);
     date.setSeconds(0);
-    return date.toISOString();
+    return date.toLocaleString();
 };
 
-const queriesCountByMinute = queries.map(queries => {
+const queriesForCount = createStore([]).on(getQueriesForCountFx.doneData, (_, queries) => {
+    const regexV = /V[1-4]/;
+    const regexU = /U[1-4]/;
+    const regexReroll = /🔄/;
+
+    return queries.map(query => ({
+        ...query,
+        dateQuery: roundToMinute(query?.dateQuery || ''),
+        leadTime: query.leadTime ? +(query.leadTime / 1000 / 60).toFixed(2) : 0,
+        action: query.action
+            ? regexV.test(query.action)
+                ? 'Варианты'
+                : regexU.test(query.action)
+                  ? 'Результат'
+                  : regexReroll.test(query.action)
+                    ? 'Reroll'
+                    : query.action
+            : 'Незавершено'
+    }));
+});
+
+const queriesCountByMinute = queriesForCount.map(queries => {
     const groupedData = queries.reduce((acc, curr) => {
-        const roundedDate = roundToMinute(curr.dateQuery);
-        const key = `${roundedDate}_${curr.action}`; // Создаем уникальный ключ для каждой комбинации даты и действия
+        const key = `${curr.dateQuery}_${curr.action}`; // Создаем уникальный ключ для каждой комбинации даты и действия
         acc[key] = acc[key] || 0;
         acc[key]++;
         return acc;
@@ -58,13 +89,11 @@ const queriesCountByMinute = queries.map(queries => {
 
 const roundToHours = (dateString: string) => {
     const date = new Date(dateString);
-    date.setMilliseconds(0);
-    date.setSeconds(0);
     date.setMinutes(0);
-    return date.toISOString();
+    return date.toLocaleString();
 };
 
-const queriesCountByHours = queries.map(queries => {
+const queriesCountByHours = queriesForCount.map(queries => {
     const groupedData = queries.reduce((acc, curr) => {
         const roundedDate = roundToHours(curr.dateQuery);
         const key = `${roundedDate}_${curr.action}`; // Создаем уникальный ключ для каждой комбинации даты и действия
@@ -84,13 +113,12 @@ const queriesCountByHours = queries.map(queries => {
 
 const roundToDay = (dateString: string) => {
     const date = new Date(dateString);
-    date.setMilliseconds(0);
-    date.setSeconds(0);
     date.setMinutes(0);
     date.setHours(0);
-    return date.toISOString();
+    return date.toLocaleString();
 };
-const queriesCountByDays = queries.map(queries => {
+
+const queriesCountByDays = queriesForCount.map(queries => {
     const groupedData = queries.reduce((acc, curr) => {
         const roundedDate = roundToDay(curr.dateQuery);
         const key = `${roundedDate}_${curr.action}`; // Создаем уникальный ключ для каждой комбинации даты и действия
@@ -109,16 +137,18 @@ const queriesCountByDays = queries.map(queries => {
 });
 
 export const queriesStores = {
-    queries,
+    queriesForTime,
     queriesCountByMinute,
     queriesCountByHours,
     queriesCountByDays
 };
 
 export const queriesEffects = {
-    getQueriesFx
+    getQueriesForTimeFx,
+    getQueriesForCountFx
 };
 
 export const queriesEvents = {
-    getQueriesFn
+    getQueriesForTimeFn,
+    getQueriesForCountFn
 };
