@@ -56,7 +56,6 @@ const queriesForCount = createStore([]).on(getQueriesForCountFx.doneData, (_, qu
 
     return queries.map(query => ({
         ...query,
-        dateQuery: roundToMinute(query?.dateQuery || ''),
         leadTime: query.leadTime ? +(query.leadTime / 1000 / 60).toFixed(2) : 0,
         action: query.action
             ? regexV.test(query.action)
@@ -72,7 +71,7 @@ const queriesForCount = createStore([]).on(getQueriesForCountFx.doneData, (_, qu
 
 const queriesCountByMinute = queriesForCount.map(queries => {
     const groupedData = queries.reduce((acc, curr) => {
-        const key = `${curr.dateQuery}_${curr.action}`; // Создаем уникальный ключ для каждой комбинации даты и действия
+        const key = `${roundToMinute(curr.dateQuery)}_${curr.action}`; // Создаем уникальный ключ для каждой комбинации даты и действия
         acc[key] = acc[key] || 0;
         acc[key]++;
         return acc;
