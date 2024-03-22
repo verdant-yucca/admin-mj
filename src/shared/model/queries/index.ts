@@ -88,6 +88,8 @@ const queriesCountByMinute = queriesForCount.map(queries => {
 
 const roundToHours = (dateString: string) => {
     const date = new Date(dateString);
+    date.setMilliseconds(0);
+    date.setSeconds(0);
     date.setMinutes(0);
     return date.toLocaleString();
 };
@@ -112,6 +114,8 @@ const queriesCountByHours = queriesForCount.map(queries => {
 
 const roundToDay = (dateString: string) => {
     const date = new Date(dateString);
+    date.setMilliseconds(0);
+    date.setSeconds(0);
     date.setMinutes(0);
     date.setHours(0);
     return date.toLocaleString();
