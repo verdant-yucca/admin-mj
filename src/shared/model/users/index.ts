@@ -11,8 +11,24 @@ const getUsersFx = createEffect(async (payload: { page: string; pageSize: string
         throw new Error();
     }
 });
+
+const updateUserFn = createEvent<any>();
+const updateUserFx = createEffect(async (payload: any) => {
+    try {
+        let count = 0;
+        const interval = setInterval(() => {
+            count++;
+            API.users.updateUser(payload);
+            if (count > 1) {
+                clearInterval(interval);
+            }
+        }, 1000);
+    } catch (e) {
+        console.log(e);
+    }
+});
 //@ts-ignore
-const users = createStore([]).on(getUsersFx.doneData, (_, users) => users);
+const users = createStore([]).on(getUsersFx.doneData, (_, users) => users.map(user => ({ ...user, key: user._id })));
 
 const roundToDay = (dateString: string) => {
     const date = new Date(dateString);
@@ -40,13 +56,16 @@ const usersCountByDays = users.map(users => {
 });
 
 export const usersStores = {
-    usersCountByDays
+    usersCountByDays,
+    users
 };
 
 export const usersEffects = {
-    getUsersFx
+    getUsersFx,
+    updateUserFx
 };
 
 export const usersEvents = {
-    getUsersFn
+    getUsersFn,
+    updateUserFn
 };
