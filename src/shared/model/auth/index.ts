@@ -2,7 +2,7 @@ import { createEffect, createEvent, createStore, sample } from 'effector';
 import { API } from '../../api';
 
 const loginFn = createEvent<{ login: string; password: string }>();
-const setIsAuthFn = createEvent();
+const setIsAuthFn = createEvent<boolean>();
 
 const loginFx = createEffect(async (payload: { login: string; password: string }) => {
     const data = await API.auth.login(payload);
@@ -15,9 +15,9 @@ const loginFx = createEffect(async (payload: { login: string; password: string }
     }
 });
 
-const isAuth = createStore(false)
+const isAuth = createStore(true)
     .on(loginFx.doneData, () => true)
-    .on(setIsAuthFn, () => true);
+    .on(setIsAuthFn, (_, isAuth) => isAuth);
 
 export const authStores = {
     isAuth

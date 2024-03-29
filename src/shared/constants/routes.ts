@@ -3,5 +3,6 @@ export const APP_ROUTE = {
     jsonEditor: '/jsonEditor',
     users: '/users',
     queries: '/queries',
-    login: '/login'
+    login: '/login',
+    packagePrice: '/packagePrice'
 };

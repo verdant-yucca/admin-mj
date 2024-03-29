@@ -22,7 +22,7 @@
       "@/*": ["src/*"],
     }
   },
-  "include": ["packages"],
+  "include": ["src"],
   "exclude": ["**/node_modules", "**/build"],
   "files": [
     "./src/application/styles/theme/theme.d.ts",

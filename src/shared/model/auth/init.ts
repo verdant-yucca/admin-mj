@@ -7,5 +7,3 @@ sample({
     clock: authEvents.loginFn,
     target: authEffects.loginFx
 });
-
-authEvents.setIsAuthFn.watch(() => historyEvents.push(APP_ROUTE.root));
