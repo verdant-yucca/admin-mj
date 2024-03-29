@@ -14,23 +14,23 @@ export const Header = () => {
 
     const items = [
         {
-            label: 'Main',
+            label: 'Главная',
             key: APP_ROUTE.root
         },
         {
-            label: 'Users',
+            label: 'Пользователи',
             key: APP_ROUTE.users
         },
         {
-            label: 'Queries',
+            label: 'Запросы',
             key: APP_ROUTE.queries
         },
         {
-            label: 'jsonEditor',
+            label: 'Константы',
             key: APP_ROUTE.jsonEditor
         },
         {
-            label: 'packagePrice',
+            label: 'Пакеты',
             key: APP_ROUTE.packagePrice
         }
     ];

@@ -1,71 +1,139 @@
-import { Table } from 'antd';
+import { Key, useEffect, useState } from 'react';
+import { Table, Form, Typography, Popconfirm, Button } from 'antd';
+import { useStore } from 'effector-react';
+import { EditableCell } from '@/pages/PackagePrice/EditableCell';
+import { packagesEvents, packagesStores } from '@/shared/model/packages';
+
+interface Item {
+    key: string;
+    name: string;
+    price: number;
+    count: number;
+}
 
 export const PackagePricePage = () => {
-    const nameColumns = [
-        {
-            title: '№',
-            dataIndex: '_id',
-            key: '_id'
-        },
-        {
-            title: 'Название',
-            dataIndex: 'name',
-            key: 'name'
-        },
-        {
-            title: 'Цена',
-            dataIndex: 'price',
-            key: 'price'
-        },
-        {
-            title: 'Запросы',
-            dataIndex: 'count',
-            key: 'count'
-        }
-    ];
+    const packages = useStore(packagesStores.packages);
+    const [form] = Form.useForm();
+    const [editingKey, setEditingKey] = useState('');
 
-    const data = [
-        {
-            _id: '66065a7038c99b65c6cb6f11',
-            name: 'Бомж пакет',
-            price: 50,
-            count: 10,
-            dateCreate: '2024-03-29T06:06:40.563Z',
-            __v: 0
-        },
-        {
-            _id: '66065a7038c99b65c6cb6f12',
-            name: 'Холоп пакет',
-            price: 200,
-            count: 50,
-            dateCreate: '2024-03-29T06:06:40.564Z',
-            __v: 0
-        },
-        {
-            _id: '66065a7038c99b65c6cb6f13',
-            name: 'Деловой паке',
-            price: 600,
-            count: 200,
-            dateCreate: '2024-03-29T06:06:40.564Z',
-            __v: 0
-        },
-        {
-            _id: '66065a7038c99b65c6cb6f14',
-            name: 'Боярский пакет',
-            price: 1000,
-            count: 500,
-            dateCreate: '2024-03-29T06:06:40.564Z',
-            __v: 0
-        },
-        {
-            _id: '66065a7038c99b65c6cb6f15',
-            name: 'Царский пакет',
-            price: 1500,
-            count: 1000,
-            dateCreate: '2024-03-29T06:06:40.564Z',
-            __v: 0
-        }
-    ];
+    const isEditing = (record: Item) => record.key === editingKey;
 
-    return <Table dataSource={data} columns={nameColumns} />;
+    const edit = (record: Partial<Item> & { key: React.Key }) => {
+        form.setFieldsValue({ name: '', age: '', address: '', ...record });
+        setEditingKey(record.key);
+    };
+
+    const cancel = () => {
+        setEditingKey('');
+    };
+
+    const save = async (key: Key) => {
+        try {
+            const row = (await form.validateFields()) as Item;
+
+            const newData = [...packages];
+            const index = newData.findIndex(item => key === item.key);
+            if (index > -1) {
+                const item = newData[index];
+                newData.splice(index, 1, {
+                    ...item,
+                    ...row
+                });
+                packagesEvents.setPackagesFn(newData);
+                setEditingKey('');
+            } else {
+                newData.push(row);
+                packagesEvents.setPackagesFn(newData);
+                setEditingKey('');
+            }
+        } catch (errInfo) {
+            console.log('Validate Failed:', errInfo);
+        }
+    };
+
+    useEffect(() => {
+        packagesEvents.getPackagesFn();
+    }, []);
+
+    useEffect(() => {
+        console.log(packages);
+    }, [packages]);
+
+    return (
+        <Form form={form} component={false}>
+            <Table
+                dataSource={packages}
+                rowClassName="editable-row"
+                bordered
+                components={{
+                    body: {
+                        cell: EditableCell
+                    }
+                }}
+            >
+                <Table.Column key="N" dataIndex="N" title="№" render={(_, __, index) => <>{index + 1}</>} />
+                <Table.Column
+                    key="name"
+                    dataIndex="name"
+                    title="Название"
+                    onCell={(record: Item) => ({
+                        record,
+                        inputType: 'text',
+                        dataIndex: 'name',
+                        title: 'Название',
+                        editing: isEditing(record)
+                    })}
+                />
+                <Table.Column
+                    key="price"
+                    dataIndex="price"
+                    title="Цена"
+                    onCell={(record: Item) => ({
+                        record,
+                        inputType: 'number',
+                        dataIndex: 'price',
+                        title: 'Цена',
+                        editing: isEditing(record)
+                    })}
+                />
+                <Table.Column
+                    key="count"
+                    dataIndex="count"
+                    title="Запросы"
+                    onCell={(record: Item) => ({
+                        record,
+                        inputType: 'number',
+                        dataIndex: 'count',
+                        title: 'Запросы',
+                        editing: isEditing(record)
+                    })}
+                />
+                <Table.Column
+                    key="edit"
+                    dataIndex="edit"
+                    title="Edit"
+                    render={(_: any, record: Item) => {
+                        const editable = isEditing(record);
+                        return editable ? (
+                            <span>
+                                <Typography.Link onClick={() => save(record.key)} style={{ marginRight: 8 }}>
+                                    Save
+                                </Typography.Link>
+                                <Popconfirm title="Sure to cancel?" onConfirm={cancel}>
+                                    <a>Cancel</a>
+                                </Popconfirm>
+                            </span>
+                        ) : (
+                            <Typography.Link disabled={editingKey !== ''} onClick={() => edit(record)}>
+                                Edit
+                            </Typography.Link>
+                        );
+                    }}
+                />
+            </Table>
+            <Button onClick={() => packagesEvents.savePackagesFn()} type="primary">
+                Save
+            </Button>
+        </Form>
+    );
 };

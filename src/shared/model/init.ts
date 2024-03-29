@@ -3,3 +3,4 @@ import './auth/init';
 import './jsonEditor/init';
 import './queries/init';
 import './users/init';
+import './packages/init';

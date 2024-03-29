@@ -15,11 +15,11 @@ export const QueriesPage = () => {
     const items: CollapseProps['items'] = [
         {
             key: '1',
-            label: 'ЗАПРОСЫ ПО МИНУТАМ',
+            label: 'ЗАПРОСЫ ПО ДНЯМ',
             children: (
                 <Line
-                    data={queriesCountByMinute}
-                    xField={'date'}
+                    data={queriesCountByDays}
+                    xField="date"
                     yField="count"
                     seriesField="action"
                     point={{
@@ -47,11 +47,11 @@ export const QueriesPage = () => {
         },
         {
             key: '3',
-            label: 'ЗАПРОСЫ ПО ДНЯМ',
+            label: 'ЗАПРОСЫ ПО МИНУТАМ',
             children: (
                 <Line
-                    data={queriesCountByDays}
-                    xField="date"
+                    data={queriesCountByMinute}
+                    xField={'date'}
                     yField="count"
                     seriesField="action"
                     point={{
