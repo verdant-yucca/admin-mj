@@ -28,6 +28,10 @@ export const Header = () => {
         {
             label: 'jsonEditor',
             key: APP_ROUTE.jsonEditor
+        },
+        {
+            label: 'packagePrice',
+            key: APP_ROUTE.packagePrice
         }
     ];
 

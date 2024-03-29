@@ -15,6 +15,7 @@ import { Header } from './features/Header';
 import { JsonEditorPage } from './pages/JsonEditor';
 import { QueriesPage } from './pages/Queries';
 import { UsersPage } from './pages/Users';
+import { PackagePricePage } from './pages/PackagePrice';
 
 const App = () => {
     const isAuth = useStore(authStores.isAuth);
@@ -22,9 +23,7 @@ const App = () => {
     useEffect(() => {
         // commented this code for dev without authorization
         const token = localStorage.getItem('token');
-        if (token) {
-            authEvents.setIsAuthFn();
-        }
+        authEvents.setIsAuthFn(!!token);
     }, []);
 
     return (
@@ -44,6 +43,7 @@ const App = () => {
                         path={APP_ROUTE.users}
                         element={isAuth ? <UsersPage /> : <Navigate to={APP_ROUTE.login} />}
                     />
+                    <Route path={APP_ROUTE.packagePrice} element={<PackagePricePage />} />
                     <Route
                         path={APP_ROUTE.queries}
                         element={isAuth ? <QueriesPage /> : <Navigate to={APP_ROUTE.login} />}
