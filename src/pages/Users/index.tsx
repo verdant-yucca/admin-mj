@@ -77,7 +77,7 @@ export const UsersPage = () => {
                 }}
             />
 
-            <Title>Пиздюки</Title>
+            <Title>Пиздюки. Всего {usersState.length} тел</Title>
 
             <Form form={form} component={false}>
                 <Table
@@ -90,18 +90,38 @@ export const UsersPage = () => {
                         }
                     }}
                 >
-                    <Table.Column key="N" dataIndex="N" title="№" render={(_, __, index) => <>{index + 1}</>} />
-                    <Table.Column key="chatId" dataIndex="chatId" title="id" />
-                    <Table.Column key="username" dataIndex="username" title="@Username" />
-                    <Table.Column title="Имя" render={(_, record) => record.firstName + ' ' + record.lastName} />
-                    <Table.Column title="Язык" render={(_, record) => record.languageCode || ''} />
+                    <Table.Column
+                        key="N"
+                        width="20px"
+                        dataIndex="N"
+                        title="№"
+                        render={(_, __, index) => <>{index + 1}</>}
+                    />
+                    <Table.Column key="chatId" width="100px" dataIndex="chatId" title="id" />
+                    <Table.Column
+                        key="username"
+                        dataIndex="username"
+                        width="100px"
+                        title="@Username"
+                        onFilter={(value: string, record) => record.username.startsWith(value)}
+                        filterSearch={true}
+                    />
+                    <Table.Column
+                        title="Имя"
+                        width="350px"
+                        render={(_, record) => record.firstName + ' ' + record.lastName}
+                    />
+                    <Table.Column title="Язык" width="20px" render={(_, record) => record.languageCode || ''} />
                     <Table.Column
                         title="Дата регистрации"
+                        width="20px"
+                        sorter={(a, b) => new Date(a.createDate) - new Date(b.createDate)}
                         render={(_, record) => format(new Date(record.createDate), 'dd/MM/yyyy')}
                     />
                     <Table.Column
                         title="Запросы"
                         render={(_, record) => record.countQueries || 0}
+                        sorter={(a, b) => a.countQueries - b.countQueries}
                         onCell={(record: Item) => ({
                             inputType: 'number',
                             dataIndex: 'countQueries',
@@ -112,6 +132,7 @@ export const UsersPage = () => {
                     <Table.Column
                         title="Бесплатные запросы"
                         render={(_, record) => record.countFreeQueries || 0}
+                        sorter={(a, b) => a.countFreeQueries - b.countFreeQueries}
                         onCell={(record: Item) => ({
                             inputType: 'number',
                             dataIndex: 'countFreeQueries',

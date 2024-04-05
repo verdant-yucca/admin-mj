@@ -1,8 +1,8 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { queriesEvents, queriesStores } from '../../shared/model/queries';
 import { useStore } from 'effector-react';
 import { Line } from '@ant-design/charts';
-import { Collapse } from 'antd';
+import { Collapse, DatePicker, Space } from 'antd';
 import { Title } from './styles';
 import { format } from 'date-fns';
 
@@ -12,6 +12,12 @@ export const QueriesPage = () => {
     const queriesCountByHours = useStore(queriesStores.queriesCountByHours);
     const queriesCountByDays = useStore(queriesStores.queriesCountByDays);
 
+    const onChange: DatePickerProps['onChange'] = (date, dateString) => {
+        queriesEvents.getQueriesForCountFn({
+            dateStart: format(date[0].$d, 'MM.dd.yyyy'),
+            dateEnd: format(date[1].$d, 'MM.dd.yyyy')
+        });
+    };
     const items: CollapseProps['items'] = [
         {
             key: '1',
@@ -82,19 +88,33 @@ export const QueriesPage = () => {
     if (!queries?.length) return null;
     return (
         <>
-            <Title>График отображает время выполнения запросов</Title>
-            <Line
-                data={queries}
-                xField="dateQuery"
-                yField="leadTime"
-                seriesField="action"
-                point={{
-                    shapeField: 'square',
-                    sizeField: 4
-                }}
-            />
+            <div style={{ marginBottom: '30px' }}>
+                <Title>График отображает время выполнения запросов</Title>
+                <Line
+                    data={queries}
+                    xField="dateQuery"
+                    yField="leadTime"
+                    seriesField="action"
+                    point={{
+                        shapeField: 'square',
+                        sizeField: 4
+                    }}
+                />
+            </div>
 
-            <Title>График отображает количество запросов</Title>
+            <div
+                style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    columnGap: '30px',
+                    marginBottom: '30px',
+                    height: '30px'
+                }}
+            >
+                <Title>График отображает количество запросов</Title>
+                <DatePicker.RangePicker onChange={onChange} format="DD/MM/YYYY" />
+            </div>
             <Collapse items={items} accordion defaultActiveKey={['1']} />
         </>
     );

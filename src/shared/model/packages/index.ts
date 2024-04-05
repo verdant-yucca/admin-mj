@@ -6,7 +6,7 @@ const setPackagesFn = createEvent<any>();
 const savePackagesFn = createEvent();
 
 const getPackagesFx = createEffect(async () => {
-    const packages = await API.packages.getPackages();
+    const { packages } = await API.packages.getPackages();
     if (packages) {
         return packages;
     } else {
