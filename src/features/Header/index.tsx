@@ -32,6 +32,14 @@ export const Header = () => {
         {
             label: 'Пакеты',
             key: APP_ROUTE.packagePrice
+        },
+        {
+            label: 'Очереди',
+            key: APP_ROUTE.transactions
+        },
+        {
+            label: 'Платежи',
+            key: APP_ROUTE.payments
         }
     ];
 

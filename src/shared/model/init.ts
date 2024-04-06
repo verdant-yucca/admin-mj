@@ -4,3 +4,4 @@ import './jsonEditor/init';
 import './queries/init';
 import './users/init';
 import './packages/init';
+import './transactions/init';

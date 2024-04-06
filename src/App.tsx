@@ -3,7 +3,6 @@ import { ThemeProvider } from 'styled-components';
 import { GlobalStyles } from '@/application/styles/global';
 import theme from '@/application/styles/theme';
 import { APP_ROUTE } from '@/shared/constants/routes';
-import { MainLayout } from '@/features/MainLayout';
 import '@/shared/model/init';
 import { LoginPage } from '@/pages/Login';
 import { MainPage } from '@/pages/Main';
@@ -16,6 +15,7 @@ import { JsonEditorPage } from './pages/JsonEditor';
 import { QueriesPage } from './pages/Queries';
 import { UsersPage } from './pages/Users';
 import { PackagePricePage } from './pages/PackagePrice';
+import { TransactionsPage } from '@/pages/Transactions';
 
 const App = () => {
     const isAuth = useStore(authStores.isAuth);
@@ -47,6 +47,10 @@ const App = () => {
                     <Route
                         path={APP_ROUTE.queries}
                         element={isAuth ? <QueriesPage /> : <Navigate to={APP_ROUTE.login} />}
+                    />
+                    <Route
+                        path={APP_ROUTE.transactions}
+                        element={isAuth ? <TransactionsPage /> : <Navigate to={APP_ROUTE.login} />}
                     />
                     <Route path="*" element={<Navigate to={APP_ROUTE.root} />} />
                 </Routes>

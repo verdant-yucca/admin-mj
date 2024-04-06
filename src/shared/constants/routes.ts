@@ -4,5 +4,8 @@ export const APP_ROUTE = {
     users: '/users',
     queries: '/queries',
     login: '/login',
-    packagePrice: '/packagePrice'
+    packagePrice: '/packagePrice',
+    transactions: '/transactions',
+    payments: '/payments',
+    bannedWords: '/bannedWords'
 };
