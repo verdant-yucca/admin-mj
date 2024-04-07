@@ -6,6 +6,7 @@ export const APP_ROUTE = {
     login: '/login',
     packagePrice: '/packagePrice',
     transactions: '/transactions',
+    wordsForDelete: '/wordsForDelete',
     payments: '/payments',
     bannedWords: '/bannedWords'
 };

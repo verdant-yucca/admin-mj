@@ -4,6 +4,7 @@ import * as quries from './quries';
 import * as users from './users';
 import * as packages from './packages';
 import * as transactions from './transactions';
+import * as wordsForDelete from './wordsForDelete';
 
 export const API = {
     auth,
@@ -11,5 +12,6 @@ export const API = {
     quries,
     users,
     packages,
-    transactions
+    transactions,
+    wordsForDelete
 };

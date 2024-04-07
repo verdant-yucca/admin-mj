@@ -40,6 +40,10 @@ export const Header = () => {
         {
             label: 'Платежи',
             key: APP_ROUTE.payments
+        },
+        {
+            label: 'Слова для удаления',
+            key: APP_ROUTE.wordsForDelete
         }
     ];
 
