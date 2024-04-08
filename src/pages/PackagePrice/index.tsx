@@ -40,6 +40,10 @@ export const PackagePricePage = () => {
                     ...row
                 });
                 packagesEvents.setPackagesFn(newData);
+                packagesEvents.savePackagesFn({
+                    ...item,
+                    ...row
+                });
                 setEditingKey('');
             } else {
                 newData.push(row);
@@ -85,6 +89,18 @@ export const PackagePricePage = () => {
                     })}
                 />
                 <Table.Column
+                    key="description"
+                    dataIndex="description"
+                    title="Описание"
+                    onCell={(record: Item) => ({
+                        record,
+                        inputType: 'text',
+                        dataIndex: 'description',
+                        title: 'Описание',
+                        editing: isEditing(record)
+                    })}
+                />
+                <Table.Column
                     key="price"
                     dataIndex="price"
                     title="Цена"
@@ -105,6 +121,42 @@ export const PackagePricePage = () => {
                         inputType: 'number',
                         dataIndex: 'count',
                         title: 'Запросы',
+                        editing: isEditing(record)
+                    })}
+                />
+                <Table.Column
+                    key="photoUrl"
+                    dataIndex="photoUrl"
+                    title="Картинка"
+                    onCell={(record: Item) => ({
+                        record,
+                        inputType: 'string',
+                        dataIndex: 'photoUrl',
+                        title: 'Картинка',
+                        editing: isEditing(record)
+                    })}
+                />
+                <Table.Column
+                    key="photoWidth"
+                    dataIndex="photoWidth"
+                    title="Ширина"
+                    onCell={(record: Item) => ({
+                        record,
+                        inputType: 'string',
+                        dataIndex: 'photoWidth',
+                        title: 'Ширина',
+                        editing: isEditing(record)
+                    })}
+                />
+                <Table.Column
+                    key="photoHeight"
+                    dataIndex="photoHeight"
+                    title="Высота"
+                    onCell={(record: Item) => ({
+                        record,
+                        inputType: 'string',
+                        dataIndex: 'photoHeight',
+                        title: 'Высота',
                         editing: isEditing(record)
                     })}
                 />
@@ -131,9 +183,6 @@ export const PackagePricePage = () => {
                     }}
                 />
             </Table>
-            <Button onClick={() => packagesEvents.savePackagesFn()} type="primary">
-                Save
-            </Button>
         </Form>
     );
 };

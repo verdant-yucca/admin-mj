@@ -1,15 +1,16 @@
+// this wil be api logic
 import axios from './axios-instance';
 
-export const getPackages = () =>
+export const getBannedWords = () =>
     axios<NonNullable<unknown>>({
-        url: '/getPackages',
+        url: '/getBannedWords',
         method: 'POST',
         data: {}
     });
 
-export const savePackages = (data: any) =>
+export const updateBannedWords = (data: NonNullable<unknown>) =>
     axios<NonNullable<unknown>>({
-        url: '/updatePackages',
+        url: '/updateBannedWords',
         method: 'POST',
         data
     });

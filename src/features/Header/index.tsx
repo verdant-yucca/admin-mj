@@ -15,42 +15,62 @@ export const Header = () => {
     const items = [
         {
             label: 'Главная',
-            key: APP_ROUTE.root
+            key: APP_ROUTE.root,
+            style: { height: '24px', lineHeight: '24px' }
         },
         {
-            label: 'Пользователи',
-            key: APP_ROUTE.users
-        },
-        {
-            label: 'Запросы',
-            key: APP_ROUTE.queries
+            label: 'Статистика',
+            key: 'Статистика',
+            style: { height: '24px', lineHeight: '24px' },
+            children: [
+                {
+                    label: 'Пользователи',
+                    key: APP_ROUTE.users
+                },
+                {
+                    label: 'Запросы',
+                    key: APP_ROUTE.queries
+                },
+                {
+                    label: 'Платежи',
+                    key: APP_ROUTE.payments
+                }
+            ]
         },
         {
             label: 'Константы',
-            key: APP_ROUTE.jsonEditor
-        },
-        {
-            label: 'Пакеты',
-            key: APP_ROUTE.packagePrice
+            key: APP_ROUTE.jsonEditor,
+            style: { height: '24px', lineHeight: '24px' },
+            children: [
+                {
+                    label: 'Контент (текста)',
+                    key: APP_ROUTE.jsonEditor
+                },
+                {
+                    label: 'Слова для удаления',
+                    key: APP_ROUTE.wordsForDelete
+                },
+                {
+                    label: 'Плохие слова',
+                    key: APP_ROUTE.bannedWords
+                },
+                {
+                    label: 'Пакеты',
+                    key: APP_ROUTE.packagePrice
+                }
+            ]
         },
         {
             label: 'Очереди',
-            key: APP_ROUTE.transactions
-        },
-        {
-            label: 'Платежи',
-            key: APP_ROUTE.payments
-        },
-        {
-            label: 'Слова для удаления',
-            key: APP_ROUTE.wordsForDelete
+            key: APP_ROUTE.transactions,
+            style: { height: '24px', lineHeight: '24px' }
         }
     ];
 
     return (
         <>
             <Menu
-                style={{ backgroundColor: '#bac4d8' }}
+                style={{ backgroundColor: '#bac4d8', height: '30px', display: 'flex', alignItems: 'center' }}
                 onClick={onClick}
                 selectedKeys={[current]}
                 mode="horizontal"

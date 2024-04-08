@@ -66,7 +66,15 @@ export const TransactionsPage = () => {
                 Если записло в статусе waiting start, то нажми Edit и напиши badRequest
             </Title>
             {[quinesClient1, quinesClient2, quinesClient3].map((quinesClient, index) => (
-                <div key={index}>
+                <div
+                    style={{
+                        backgroundColor: '#bac4d8',
+                        borderRadius: '30px',
+                        padding: '2px 20px 20px',
+                        margin: '0 16px 16px 16px'
+                    }}
+                    key={index}
+                >
                     <Title>
                         Клиент {index + 1} ({index === 0 ? 'Jetirock' : index === 1 ? 'Bugakill' : 'deadshot'}). Ожидают
                         запуска: {quinesClient.filter(({ stage }) => stage === 'waiting start').length}, Запущено:{' '}

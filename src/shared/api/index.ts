@@ -5,6 +5,7 @@ import * as users from './users';
 import * as packages from './packages';
 import * as transactions from './transactions';
 import * as wordsForDelete from './wordsForDelete';
+import * as bannedWords from './bannedWords';
 
 export const API = {
     auth,
@@ -13,5 +14,6 @@ export const API = {
     users,
     packages,
     transactions,
-    wordsForDelete
+    wordsForDelete,
+    bannedWords
 };

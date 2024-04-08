@@ -17,6 +17,7 @@ import { UsersPage } from './pages/Users';
 import { PackagePricePage } from './pages/PackagePrice';
 import { TransactionsPage } from '@/pages/Transactions';
 import { WordsForDeletePage } from '@/pages/WordsForDelete';
+import { BannedWordsPage } from '@/pages/BannedWords';
 
 const App = () => {
     const isAuth = useStore(authStores.isAuth);
@@ -56,6 +57,10 @@ const App = () => {
                     <Route
                         path={APP_ROUTE.wordsForDelete}
                         element={isAuth ? <WordsForDeletePage /> : <Navigate to={APP_ROUTE.login} />}
+                    />
+                    <Route
+                        path={APP_ROUTE.bannedWords}
+                        element={isAuth ? <BannedWordsPage /> : <Navigate to={APP_ROUTE.login} />}
                     />
                     <Route path="*" element={<Navigate to={APP_ROUTE.root} />} />
                 </Routes>
