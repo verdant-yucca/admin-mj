@@ -1,5 +1,6 @@
 import { createEffect, createEvent, createStore } from 'effector';
 import { API } from '../../api';
+import { secondsToTime } from '@/shared/utils/common';
 
 interface Transaction {
     _id: string;
@@ -52,7 +53,7 @@ const transactions = createStore<Transaction[]>([]).on(getTransactionsFx.doneDat
     transactions.map(transaction => ({
         ...transaction,
         dateQuery: new Date(transaction.dateQuery).toLocaleDateString(),
-        leadTime: `${((new Date() - new Date(transaction.dateQuery)) / 1000).toFixed(0)} секунд`,
+        leadTime: secondsToTime(Number(((new Date() - new Date(transaction.dateQuery)) / 1000).toFixed(0))),
         key: transaction._id
     }))
 );
