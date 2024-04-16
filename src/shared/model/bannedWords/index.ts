@@ -1,4 +1,4 @@
-import { createEffect, createEvent, createStore } from 'effector';
+import { createEffect, createEvent, createStore, sample } from 'effector';
 import { API } from '../../api';
 
 const getBannedWordsFn = createEvent();
@@ -28,6 +28,16 @@ const resetIsWordsUpdatedFn = createEvent();
 const isContentUpdated = createStore(false)
     .on(updateBannedWordsFx.doneData, () => true)
     .reset(resetIsWordsUpdatedFn);
+
+sample({
+    clock: getBannedWordsFn,
+    target: getBannedWordsFx
+});
+
+sample({
+    clock: updateBannedWordsFn,
+    target: updateBannedWordsFx
+});
 
 export const bannedWordsStores = {
     content,

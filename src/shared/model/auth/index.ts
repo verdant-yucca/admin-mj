@@ -19,6 +19,11 @@ const isAuth = createStore(true)
     .on(loginFx.doneData, () => true)
     .on(setIsAuthFn, (_, isAuth) => isAuth);
 
+sample({
+    clock: loginFn,
+    target: loginFx
+});
+
 export const authStores = {
     isAuth
 };

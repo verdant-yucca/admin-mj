@@ -1,4 +1,4 @@
-import { createEffect, createEvent, createStore } from 'effector';
+import { createEffect, createEvent, createStore, sample } from 'effector';
 import { API } from '../../api';
 
 const getContentFn = createEvent();
@@ -28,6 +28,16 @@ const resetIsContentUpdatedFn = createEvent();
 const isContentUpdated = createStore(false)
     .on(updateContentFx.doneData, () => true)
     .reset(resetIsContentUpdatedFn);
+
+sample({
+    clock: getContentFn,
+    target: getContentFx
+});
+
+sample({
+    clock: updateContentFn,
+    target: updateContentFx
+});
 
 export const jsonEditorStores = {
     content,

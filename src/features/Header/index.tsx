@@ -57,6 +57,10 @@ export const Header = () => {
                 {
                     label: 'Пакеты',
                     key: APP_ROUTE.packagePrice
+                },
+                {
+                    label: 'Аккаунты миджорни',
+                    key: APP_ROUTE.accountMidjourney
                 }
             ]
         },

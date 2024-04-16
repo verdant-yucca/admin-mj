@@ -1,4 +1,4 @@
-import { createEffect, createEvent, createStore } from 'effector';
+import { createEffect, createEvent, createStore, sample } from 'effector';
 import { API } from '../../api';
 
 const getQueriesForTimeFn = createEvent<{ dateStart: string; dateEnd: string }>();
@@ -137,6 +137,16 @@ const queriesCountByDays = queriesForCount.map(queries => {
     });
 
     return chartData;
+});
+
+sample({
+    clock: getQueriesForTimeFn,
+    target: getQueriesForTimeFx
+});
+
+sample({
+    clock: getQueriesForCountFn,
+    target: getQueriesForCountFx
 });
 
 export const queriesStores = {

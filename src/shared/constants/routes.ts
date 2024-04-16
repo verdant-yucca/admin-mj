@@ -8,5 +8,6 @@ export const APP_ROUTE = {
     transactions: '/transactions',
     wordsForDelete: '/wordsForDelete',
     payments: '/payments',
-    bannedWords: '/bannedWords'
+    bannedWords: '/bannedWords',
+    accountMidjourney: '/accountMidjourney'
 };

@@ -3,7 +3,6 @@ import { ThemeProvider } from 'styled-components';
 import { GlobalStyles } from '@/application/styles/global';
 import theme from '@/application/styles/theme';
 import { APP_ROUTE } from '@/shared/constants/routes';
-import '@/shared/model/init';
 import { LoginPage } from '@/pages/Login';
 import { MainPage } from '@/pages/Main';
 import { useStore } from 'effector-react';
@@ -18,6 +17,7 @@ import { PackagePricePage } from './pages/PackagePrice';
 import { TransactionsPage } from '@/pages/Transactions';
 import { WordsForDeletePage } from '@/pages/WordsForDelete';
 import { BannedWordsPage } from '@/pages/BannedWords';
+import { AccountMidjourneyPage } from '@/pages/AccountMidjourney';
 
 const App = () => {
     const isAuth = useStore(authStores.isAuth);
@@ -61,6 +61,10 @@ const App = () => {
                     <Route
                         path={APP_ROUTE.bannedWords}
                         element={isAuth ? <BannedWordsPage /> : <Navigate to={APP_ROUTE.login} />}
+                    />
+                    <Route
+                        path={APP_ROUTE.accountMidjourney}
+                        element={isAuth ? <AccountMidjourneyPage /> : <Navigate to={APP_ROUTE.login} />}
                     />
                     <Route path="*" element={<Navigate to={APP_ROUTE.root} />} />
                 </Routes>

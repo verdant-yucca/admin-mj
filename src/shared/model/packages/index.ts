@@ -1,4 +1,4 @@
-import { createEffect, createEvent, createStore } from 'effector';
+import { createEffect, createEvent, createStore, sample } from 'effector';
 import { API } from '../../api';
 
 const getPackagesFn = createEvent();
@@ -20,6 +20,16 @@ const packages = createStore([])
 
 const savePackagesFx = createEffect((packages: any) => {
     API.packages.savePackages(packages);
+});
+
+sample({
+    clock: getPackagesFn,
+    target: getPackagesFx
+});
+
+sample({
+    clock: savePackagesFn,
+    target: savePackagesFx
 });
 
 export const packagesStores = {

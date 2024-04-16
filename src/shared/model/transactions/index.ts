@@ -1,4 +1,4 @@
-import { createEffect, createEvent, createStore } from 'effector';
+import { createEffect, createEvent, createStore, sample } from 'effector';
 import { API } from '../../api';
 import { secondsToTime } from '@/shared/utils/common';
 
@@ -57,6 +57,16 @@ const transactions = createStore<Transaction[]>([]).on(getTransactionsFx.doneDat
         key: transaction._id
     }))
 );
+
+sample({
+    clock: getTransactionsFn,
+    target: getTransactionsFx
+});
+
+sample({
+    clock: updateTransactionFn,
+    target: updateTransactionFx
+});
 
 export const transactionsStores = {
     transactions

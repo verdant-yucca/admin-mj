@@ -1,4 +1,4 @@
-import { createEffect, createEvent, createStore } from 'effector';
+import { createEffect, createEvent, createStore, sample } from 'effector';
 import { API } from '../../api';
 
 const getUsersFn = createEvent<{ page: string; pageSize: string }>();
@@ -53,6 +53,16 @@ const usersCountByDays = users.map(users => {
     });
 
     return chartData;
+});
+
+sample({
+    clock: getUsersFn,
+    target: getUsersFx
+});
+
+sample({
+    clock: updateUserFn,
+    target: updateUserFx
 });
 
 export const usersStores = {

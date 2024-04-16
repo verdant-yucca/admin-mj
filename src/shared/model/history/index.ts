@@ -1,9 +1,9 @@
-import { createEvent, restore } from 'effector';
+import { createEvent, restore, sample } from 'effector';
 import { createGate } from 'effector-react';
 import { NavigateFunction } from 'react-router';
 
 export const HistoryGate = createGate<{ navigate: NavigateFunction }>();
-const history = restore(HistoryGate.state.updates, null);
+const history = restore(HistoryGate.state.updates, {});
 
 export const historyEvents = {
     push: createEvent<string>(),
@@ -15,6 +15,15 @@ export const historyEvents = {
     listen: createEvent(),
     createHref: createEvent()
 };
+
+//@ts-ignore
+sample({
+    clock: historyEvents.push,
+    source: history,
+    fn: (history: { navigate: NavigateFunction }, router: string) => {
+        history.navigate(router);
+    }
+});
 
 export const historyStores = {
     history

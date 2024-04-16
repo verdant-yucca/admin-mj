@@ -1,4 +1,4 @@
-import { createEffect, createEvent, createStore } from 'effector';
+import { createEffect, createEvent, createStore, sample } from 'effector';
 import { API } from '../../api';
 import { getWordsForDelete } from '@/shared/api/wordsForDelete';
 
@@ -29,6 +29,16 @@ const resetIsWordsUpdatedFn = createEvent();
 const isContentUpdated = createStore(false)
     .on(updateWordsForDeleteFx.doneData, () => true)
     .reset(resetIsWordsUpdatedFn);
+
+sample({
+    clock: getWordsForDeleteFn,
+    target: getWordsForDeleteFx
+});
+
+sample({
+    clock: updateWordsForDeleteFn,
+    target: updateWordsForDeleteFx
+});
 
 export const wordsForDeleteStores = {
     content,
