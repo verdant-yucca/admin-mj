@@ -39,7 +39,12 @@ export const UsersPage = () => {
                     ...item,
                     ...row
                 });
-                usersEvents.updateUserFn({ ...item, ...row });
+                usersEvents.updateUserFn({
+                    ...item,
+                    ...row,
+                    countQueries: row.countQueries.toString(),
+                    payments: undefined
+                });
                 setUsersState(newData);
                 setEditingKey('');
             } else {
