@@ -41,13 +41,26 @@ const updateAccountFx = createEffect(async (payload: UpdateAccountBodyParams) =>
     }
 });
 
-const accounts = createStore<Account[]>([]).on(getAvailableAccountMidjourneyFx.doneData, (_, accounts) =>
-    accounts.map(account => ({
-        ...account,
-        dateCreate: new Date(account.dateCreate).toLocaleDateString(),
-        key: account._id
-    }))
-);
+const createAccountMidjourneyFn = createEvent<any>();
+const createAccountMidjourneyFx = createEffect(async (payload: any): Promise<Account> => {
+    const data = await API.accountMidjourney.createAvailableAccountMidjourney(payload);
+    if (data) {
+        console.log('data', data);
+        return data;
+    } else {
+        throw new Error();
+    }
+});
+
+const accounts = createStore<Account[]>([])
+    .on(getAvailableAccountMidjourneyFx.doneData, (_, accounts) =>
+        accounts.map(account => ({
+            ...account,
+            dateCreate: new Date(account.dateCreate).toLocaleDateString(),
+            key: account._id
+        }))
+    )
+    .on(createAccountMidjourneyFx.doneData, (data, newData) => [...data, newData]);
 
 sample({
     clock: getAvailableAccountMidjourneyFn,
@@ -57,6 +70,11 @@ sample({
 sample({
     clock: updateAccountFn,
     target: updateAccountFx
+});
+
+sample({
+    clock: createAccountMidjourneyFn,
+    target: createAccountMidjourneyFx
 });
 
 export const accountsStores = {
@@ -70,5 +88,6 @@ export const accountsEffects = {
 
 export const accountsEvents = {
     getAvailableAccountMidjourneyFn,
-    updateAccountFn
+    updateAccountFn,
+    createAccountMidjourneyFn
 };

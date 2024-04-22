@@ -1,14 +1,16 @@
-import { Key, useEffect, useState } from 'react';
+import React, { Key, useEffect, useState } from 'react';
 import { useStore } from 'effector-react';
-import { Table, Form, Typography } from 'antd';
+import { Table, Form, Typography, Button } from 'antd';
 import { Title } from './styles';
 import { format } from 'date-fns';
 import { EditableCell } from './EditableCell';
 import { accountsEvents, accountsStores } from '@/shared/model/accountMidjourney';
+import AddNewAccountModal from '@/pages/AccountMidjourney/AddNewAccountModal';
 
 export const AccountMidjourneyPage = () => {
     const accounts = useStore(accountsStores.accounts);
     const [accountsState, setAccountsState] = useState(accounts);
+    const [isModalOpen, setIsModalOpen] = useState(false);
 
     const [form] = Form.useForm();
     const [editingKey, setEditingKey] = useState('');
@@ -60,6 +62,7 @@ export const AccountMidjourneyPage = () => {
 
     return (
         <>
+            <AddNewAccountModal isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} />
             <Title>Аккаунты. Всего {accountsState.length}шт.</Title>
 
             <Form form={form} component={false}>
@@ -186,6 +189,9 @@ export const AccountMidjourneyPage = () => {
                     />
                 </Table>
             </Form>
+            <Button type="primary" onClick={() => setIsModalOpen(true)}>
+                Add new account
+            </Button>
         </>
     );
 };
