@@ -7,6 +7,7 @@ import * as transactions from './transactions';
 import * as wordsForDelete from './wordsForDelete';
 import * as bannedWords from './bannedWords';
 import * as accountMidjourney from './accountMidjourney';
+import * as common from './common';
 
 export const API = {
     auth,
@@ -17,5 +18,6 @@ export const API = {
     transactions,
     wordsForDelete,
     bannedWords,
-    accountMidjourney
+    accountMidjourney,
+    common
 };
