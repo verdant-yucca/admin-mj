@@ -18,6 +18,7 @@ import { TransactionsPage } from '@/pages/Transactions';
 import { WordsForDeletePage } from '@/pages/WordsForDelete';
 import { BannedWordsPage } from '@/pages/BannedWords';
 import { AccountMidjourneyPage } from '@/pages/AccountMidjourney';
+import { PaymentsPage } from '@/pages/Payments';
 
 const App = () => {
     const isAuth = useStore(authStores.isAuth);
@@ -65,6 +66,10 @@ const App = () => {
                     <Route
                         path={APP_ROUTE.accountMidjourney}
                         element={isAuth ? <AccountMidjourneyPage /> : <Navigate to={APP_ROUTE.login} />}
+                    />
+                    <Route
+                        path={APP_ROUTE.payments}
+                        element={isAuth ? <PaymentsPage /> : <Navigate to={APP_ROUTE.login} />}
                     />
                     <Route path="*" element={<Navigate to={APP_ROUTE.root} />} />
                 </Routes>
