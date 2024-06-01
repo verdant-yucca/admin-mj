@@ -124,6 +124,17 @@ export const UsersPage = () => {
                         render={(_, record) => format(new Date(record.createDate), 'dd/MM/yyyy')}
                     />
                     <Table.Column
+                        title="Сделал запросов"
+                        render={(_, record) => record.countCompletedRequests || 0}
+                        sorter={(a, b) => (a.countCompletedRequests || 0) - (b.countCompletedRequests || 0)}
+                        onCell={(record: Item) => ({
+                            inputType: 'string',
+                            dataIndex: 'countCompletedRequests',
+                            title: 'Сделал запросов',
+                            editing: isEditing(record)
+                        })}
+                    />
+                    <Table.Column
                         title="Запросы"
                         render={(_, record) => record.countQueries || 0}
                         sorter={(a, b) => a.countQueries - b.countQueries}
