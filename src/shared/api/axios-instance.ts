@@ -1,7 +1,7 @@
 import axios, { AxiosPromise, AxiosRequestConfig, RawAxiosRequestHeaders } from 'axios';
 
 // export const BASE_API_URL = process.env.NEXT_PUBLIC_API_URL;
-export const BASE_API_URL = 'http://158.160.142.41:3000';
+export const BASE_API_URL = 'http://158.160.162.29:3000';
 
 const axiosInstance = axios.create({
     baseURL: BASE_API_URL,
