@@ -32,7 +32,7 @@ const App = () => {
     return (
         <ThemeProvider theme={theme.getLight()}>
             <GlobalStyles {...theme.getLight()} />
-            <Header />
+            {isAuth && <Header />}
             <Router>
                 <HistoryGateConnector />
                 <Routes>
